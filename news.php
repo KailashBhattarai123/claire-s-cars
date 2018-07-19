@@ -1,41 +1,31 @@
-<section class="right">
-	
-	<?php
-	
-		echo('<h1>Our News</h1>');
-	
-	?>
-<ul class="cars">
+
+<h2>News</h2>
 
 
 <?php
+echo '<table>';
+echo '<thead>';
+echo '<tr>';
+echo '<th>title</th>';
+echo '<th style="width: 20%">Special Offer</th>';
+echo '<th style="width: 10%">Closing time</th>';
+echo '<th style="width: 10%">Posted By</th>';
 
-	$newsObj = new DatabaseTable($pdo, "news");
+echo '</tr>';
 
-	$news = $newsObj->findAll();
-
-$news->execute();
+$newsObject = new DatabaseTable($pdo, 'news');
+$news= $newsObject->findAll();
 
 foreach ($news as $newspart) {
-	echo '<li>';
-
-	if (file_exists('images/cars/' . $newspart['id'] . 'news.jpg')) 
-	{
-		echo '<a href="images/cars/' . $newspart['id'] . 'news.jpg"><img src="images/cars/' . $newspart['id'] . 'news.jpg" /></a>';
-	}
-
-	echo '<div class="details">';
-	echo '<h2>' . $newspart['title'] . '</h2>';
-	echo '<h3>' . $newspart['special_offer'] . '</h3>';
-	echo '<p>Bank holiday: ' . $newspart['bank_holiday'] . '</p>';
-	echo '<p>Closing time: ' . $newspart['closing_time'] . '</p>';
-	echo '<p>Posted By: ' . $newspart['posted_by'] . '</p>';
-	echo '</div>';
-	echo '</li>';
+	echo '<tr>';
+	echo '<td>' . $newspart['title'] . '</td>';
+	echo '<td>' . $newspart['special_offer'] . '</td>';
+	echo '<td>' . $newspart['closing_time'] . '</td>';
+	echo '<td>' . $newspart['posted_by'] . '</td>';
+	
+	echo '</tr>';
 }
 
+echo '</thead>';
+echo '</table>';
 ?>
-
-</ul>
-
-</section>

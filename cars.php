@@ -1,72 +1,37 @@
-<section class="right">
-	
-	<?php
-	
-	if (isset($_GET['id']))
-		echo('<h1>' . $_GET['name'] . ' cars</h1>');
-	else
-		echo('<h1>Our cars</h1>');
-	
-	?>
-<ul class="cars">
 
+<h2>Cars</h2>
+
+<a class="new" href="addcar">Add new car</a>
 
 <?php
+//This sets the table frame.
+echo '<table>';
+echo '<thead>';
+echo '<tr>';
+echo '<th>Model</th>';
+echo '<th style="width: 10%">Price</th>';
+echo '<th style="width: 5%">&nbsp;</th>';
+echo '<th style="width: 5%">&nbsp;</th>';
+echo '</tr>';
 
-	$carsObj = new DatabaseTable($pdo, "cars");
-	$manuObj = new DatabaseTable($pdo, 'manufacturers');
-if (isset($_GET['id']))
-	
-	$cars=$carsObj->find('manufacturerId', $_GET['id']);
-else
-	$cars = $carsObj->findAll();
+//The declaration of car object.
+$carsObject = new DatabaseTable($pdo, 'cars');
+//Find all the data from the cars object.
+$cars= $carsObject->findAll();
 
-$cars->execute();
-
-
+//For each cars this prints the views.
 foreach ($cars as $car) {
-
-	if ($car['archieve'] != 'archieve') {
-		
-	$manu = $manuObj->find('id', $car['manufacturerId']);
-	$manufacturer = $manu->fetch();
-	echo '<li>';
-
-	if (file_exists('images/cars/' . $car['id'] . '.jpg')) 
-	{
-		echo '<a href="images/cars/' . $car['id'] . '.jpg"><img src="images/cars/' . $car['id'] . '.jpg" /></a>';
-	}
-
-	if (file_exists('images/cars/' . $car['id'] . 'b.jpg')) 
-	{
-		echo '<a href="images/cars/' . $car['id'] . 'b.jpg"><img src="images/cars/' . $car['id'] . 'b.jpg" /></a>';
-	}
-
-	if (file_exists('images/cars/' . $car['id'] . 'c.jpg')) 
-	{
-		echo '<a href="images/cars/' . $car['id'] . 'c.jpg"><img src="images/cars/' . $car['id'] . 'c.jpg" /></a>';
-	}
-
-	if (file_exists('images/cars/' . $car['id'] . 'd.jpg')) 
-	{
-		echo '<a href="images/cars/' . $car['id'] . 'd.jpg"><img src="images/cars/' . $car['id'] . 'd.jpg" /></a>';
-	}
-
-	echo '<div class="details">';
-	echo '<h2>' . $manufacturer['name'] . ' ' . $car['name'] . '</h2>';
-	echo '<h3>£' . $car['price'] . '</h3>';
-	echo '<p>Old Price: ' . $car['oldprice'] . '</p>';
-	echo '<p>Engine Type: ' . $car['enginetype'] . '</p>';
-	echo '<p>Mileage: ' . $car['mileage'] . '</p>';
-	echo '<p>' . $car['description'] . '</p>';
-
-	echo '</div>';
-	echo '</li>';
+			echo '<tr>';
+			echo '<td>' . $car['name'] . '</td>';
+			echo '<td>£' . $car['price'] . '</td>';
+			echo '<td><a style="float: right" href="editcar?id=' . $car['id'] . '">Edit</a></td>';
+			echo '<td><form method="post" action="deletecar">
+			<input type="hidden" name="id" value="' . $car['id'] . '" />
+			<input type="submit" name="submit" value="Delete" />
+			</form></td>';
+			echo '</tr>';
 }
-}
-
+//Ends the table.
+echo '</thead>';
+echo '</table>';
 ?>
-
-</ul>
-
-</section>

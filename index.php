@@ -1,3 +1,4 @@
-<main class="home">
-	<p>Welcome to Claire's Cars, Northampton's specialist in classic and import cars.</p>
-</main>
+
+<section class="right">
+	<h2>You are now logged in</h2>
+</section>
